@@ -20,20 +20,30 @@ module.exports = {
   output: {
     filename: `${PATHS.assets}js/[name].js`,
     path: PATHS.dist,
-    publicPath: './'
+    // publicPath: '/'
   },
   module: {
     rules: [{
       test: /\.js$/,
       loader: 'babel-loader',
       exclude: '/node_modules/'
-    },{
+    },
+    {
       test: /\.(png|jpg|gif|svg)$/,
       loader: 'file-loader',
       options: {
         name: '[name].[ext]'
       }
-    }, 
+    },
+    {
+      test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
+      use: [{
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]'
+        }
+      }]
+    },
     {
       test: /\.scss$/,
       use: [
@@ -50,7 +60,8 @@ module.exports = {
           options: { sourceMap: true }
         }
       ]
-    }, {
+    },
+    {
       test: /\.css$/,
       use: [
         'style-loader',
@@ -77,6 +88,7 @@ module.exports = {
     }),
     new CopyWebpackPlugin([
       { from: `${PATHS.src}/img`, to: `${PATHS.assets}img` },
+      { from: `${PATHS.src}/fonts`, to: `${PATHS.assets}fonts` },
       { from: `${PATHS.src}/static`, to: '' },
     ])
   ],
